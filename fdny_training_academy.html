@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDNY Training Academy</title>
+<style>
+:root {
+  --site-primary: #b51f2b;
+  --site-on-primary: #ffffff;
+  --site-secondary: #202b3b;
+  --site-on-secondary: #ffffff;
+  --site-background: #f1f3f6;
+  --site-on-background: #18202c;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #171d27);
+  --surface-soft: light-dark(#f7f8fa, #202938);
+  --text-muted: light-dark(#657184, #aab5c5);
+  --line: light-dark(#e1e5eb, #344052);
+  --success: #23865b;
+  --warning: #b87516;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.layout { display: grid; grid-template-columns: 258px minmax(0, 1fr); min-height: 100vh; }
+aside { background: var(--site-secondary); color: var(--site-on-secondary); padding: calc(22px * var(--site-spacing-scale)); display: flex; flex-direction: column; gap: 25px; }
+.brand { display:flex; align-items:center; gap:12px; padding: 4px 7px 20px; border-bottom:1px solid #ffffff25; }
+.crest { width:43px; height:43px; display:grid; place-items:center; background:var(--site-primary); border:2px solid #ffffff9c; border-radius:12px; font-size:22px; }
+.brand strong { display:block; letter-spacing:.08em; font-size:13px; }
+.brand span { color:#c2cbd8; font-size:11px; letter-spacing:.12em; }
+.nav-label { color:#9eacbd; font-size:10px; font-weight:800; letter-spacing:.15em; padding:0 10px; }
+nav { display:grid; gap:5px; }
+nav button { border:0; background:transparent; color:#d5dce6; text-align:left; padding:11px 12px; border-radius:calc(10px * var(--site-radius-scale)); display:flex; gap:11px; align-items:center; font-size:13px; }
+nav button:hover, nav button.active { background:#ffffff19; color:#fff; }
+nav button.active { box-shadow:inset 3px 0 var(--site-primary); }
+.nav-icon { width:20px; text-align:center; }
+.sidebar-note { margin-top:auto; padding:14px; background:#ffffff12; border:1px solid #ffffff1b; border-radius:12px; font-size:11px; color:#c7d0dc; line-height:1.55; }
+main { min-width:0; }
+.topbar { height:70px; display:flex; align-items:center; justify-content:space-between; padding:0 34px; border-bottom:1px solid var(--line); background:var(--surface); }
+.crumb { font-size:12px; color:var(--text-muted); }
+.crumb b { color:var(--site-on-background); }
+.status { display:flex; gap:9px; align-items:center; font-size:11px; color:var(--text-muted); }
+.dot { width:8px; height:8px; background:#28a36a; border-radius:50%; box-shadow:0 0 0 4px #28a36a20; }
+.content { max-width:1220px; margin:auto; padding:34px; }
+.hero { position:relative; overflow:hidden; background:linear-gradient(115deg, var(--site-secondary), #34445a); color:white; border-radius:calc(18px * var(--site-radius-scale)); padding:34px; display:flex; justify-content:space-between; gap:25px; }
+.hero:after { content:"FDNY"; position:absolute; right:25px; bottom:-40px; font-weight:900; font-size:130px; letter-spacing:-.08em; color:#ffffff0b; pointer-events:none; }
+.eyebrow { color:#ffb9bd; font-size:10px; letter-spacing:.17em; font-weight:800; }
+h1 { font-family:var(--site-font-heading); font-size:calc(34px * var(--site-heading-scale)); line-height:1.12; margin:12px 0; letter-spacing:-.04em; }
+.hero p { max-width:560px; color:#d5dce6; font-size:13px; line-height:1.7; margin:0; }
+.hero-mark { align-self:center; font-size:76px; opacity:.9; z-index:1; padding-right:30px; }
+.section-head { display:flex; align-items:end; justify-content:space-between; gap:15px; margin:30px 0 15px; }
+.section-head h2 { margin:0; font-size:18px; letter-spacing:-.02em; }
+.section-head p { margin:5px 0 0; color:var(--text-muted); font-size:12px; }
+.muted { color:var(--text-muted); }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-top:18px; }
+.stat, .panel, .module, .lesson, .quiz-card { background:var(--surface); border:1px solid var(--line); border-radius:calc(14px * var(--site-radius-scale)); }
+.stat { padding:17px; }
+.stat span { color:var(--text-muted); font-size:11px; }
+.stat strong { display:block; font-size:25px; margin-top:7px; letter-spacing:-.04em; }
+.stat small { color:var(--success); font-size:10px; }
+.grid-modules { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.module { padding:18px; transition:transform .15s,border-color .15s; }
+.module:hover { transform:translateY(-2px); border-color:var(--site-primary); }
+.module-icon { width:39px; height:39px; display:grid; place-items:center; border-radius:11px; background:color-mix(in srgb, var(--site-primary) 12%, transparent); font-size:19px; }
+.module h3 { font-size:14px; margin:13px 0 6px; }
+.module p { color:var(--text-muted); font-size:11px; line-height:1.6; min-height:36px; margin:0 0 14px; }
+.module-foot { display:flex; align-items:center; justify-content:space-between; font-size:10px; color:var(--text-muted); }
+.pill { padding:5px 8px; background:var(--surface-soft); border-radius:30px; }
+.primary-btn { border:0; background:var(--site-primary); color:var(--site-on-primary); padding:10px 15px; border-radius:9px; font-weight:700; font-size:12px; }
+.primary-btn:hover { filter:brightness(1.08); }
+.secondary-btn { border:1px solid var(--line); color:var(--site-on-background); background:var(--surface); padding:9px 13px; border-radius:9px; font-size:12px; }
+.panel { padding:19px; }
+.progress-row { display:flex; justify-content:space-between; font-size:12px; margin-bottom:10px; }
+.progress { height:8px; border-radius:20px; background:var(--surface-soft); overflow:hidden; }
+.progress > div { height:100%; width:0; background:var(--site-primary); border-radius:20px; transition:width .3s; }
+.page { display:none; }
+.page.active { display:block; }
+.module-list { display:grid; gap:10px; }
+.lesson { padding:17px; display:flex; align-items:center; gap:14px; }
+.lesson .module-icon { flex-shrink:0; }
+.lesson-info { flex:1; }
+.lesson-info b { font-size:13px; }
+.lesson-info p { margin:4px 0 0; font-size:11px; color:var(--text-muted); }
+.lesson-detail { max-width:850px; }
+.lesson-detail h2 { font-size:23px; margin:0 0 10px; }
+.lesson-detail h3 { font-size:15px; margin:23px 0 8px; }
+.lesson-detail p, .lesson-detail li { color:var(--text-muted); font-size:13px; line-height:1.75; }
+.callout { padding:14px 16px; background:color-mix(in srgb, var(--site-primary) 9%, var(--surface)); border-left:3px solid var(--site-primary); border-radius:8px; font-size:12px; line-height:1.65; margin:16px 0; }
+.quiz-question { font-weight:700; font-size:14px; margin:0 0 13px; }
+.option { display:block; width:100%; text-align:left; border:1px solid var(--line); color:var(--site-on-background); background:var(--surface); padding:12px; border-radius:9px; margin:8px 0; font-size:12px; }
+.option.selected { border-color:var(--site-primary); background:color-mix(in srgb, var(--site-primary) 9%, var(--surface)); }
+.feedback { min-height:20px; font-size:12px; margin-top:12px; }
+.table { width:100%; border-collapse:collapse; font-size:12px; }
+.table th,.table td { text-align:left; padding:12px 10px; border-bottom:1px solid var(--line); }
+.table th { color:var(--text-muted); font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
+footer { color:var(--text-muted); text-align:center; font-size:10px; padding:30px 0 10px; }
+.mobile-menu { display:none; }
+@media(max-width:900px) { .grid-modules{grid-template-columns:repeat(2,1fr)} .stats{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:650px) { .layout{grid-template-columns:1fr} aside{display:none} aside.open{display:flex; position:fixed; z-index:5; inset:0 auto 0 0; width:270px; box-shadow:20px 0 50px #0005} .mobile-menu{display:inline-block} .topbar{padding:0 17px} .content{padding:19px} .hero{padding:24px} .hero-mark{display:none} h1{font-size:calc(27px * var(--site-heading-scale))} .grid-modules{grid-template-columns:1fr} .stats{gap:8px} .stat{padding:13px} .stat strong{font-size:21px} }
+</style>
+</head>
+<body>
+<div id="app">
+<div class="layout">
+<aside id="sidebar">
+  <div class="brand"><div class="crest">🚒</div><div><strong>FDNY TRAINING</strong><span>ACADEMY PORTAL</span></div></div>
+  <div class="nav-label">TRAINING</div>
+  <nav id="navigation">
+    <button class="active" data-page="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
+    <button data-page="courses"><span class="nav-icon">▤</span> Training modules</button>
+    <button data-page="radio"><span class="nav-icon">📻</span> Radio procedure</button>
+    <button data-page="safety"><span class="nav-icon">🦺</span> Scene safety</button>
+    <button data-page="apparatus"><span class="nav-icon">🚒</span> Apparatus & equipment</button>
+    <button data-page="quiz"><span class="nav-icon">✓</span> Knowledge check</button>
+    <button data-page="progress"><span class="nav-icon">▥</span> My progress</button>
+  </nav>
+  <div class="sidebar-note"><b>TRAINING NOTICE</b><br>This portal is a community/roleplay training aid. It is not an official FDNY publication or a substitute for certified emergency-services instruction.</div>
+</aside>
+<main>
+  <header class="topbar"><div><button class="secondary-btn mobile-menu" id="menuBtn">☰</button> <span class="crumb">FDNY / <b id="crumb">Dashboard</b></span></div><div class="status"><span class="dot"></span> TRAINING PORTAL ACTIVE</div></header>
+  <div class="content">
+    <section class="page active" id="dashboard">
+      <div class="hero"><div><div class="eyebrow">FIRE DEPARTMENT • TRAINING DIVISION</div><h1>Welcome to the<br>FDNY Training Academy.</h1><p>Build your knowledge, learn department expectations and prepare for your next roleplay training session. Select a module below to get started.</p></div><div class="hero-mark">🚒</div></div>
+      <div class="stats">
+        <div class="stat"><span>TRAINING MODULES</span><strong>5</strong><small>Available to study</small></div>
+        <div class="stat"><span>QUIZ QUESTIONS</span><strong>5</strong><small>Knowledge check</small></div>
+        <div class="stat"><span>YOUR COMPLETION</span><strong id="completionStat">0%</strong><small>Saved on this device</small></div>
+        <div class="stat"><span>ACADEMY STATUS</span><strong style="font-size:19px">READY</strong><small>Start learning</small></div>
+      </div>
+      <div class="section-head"><div><h2>Continue your training</h2><p>Core topics for FDNY community roleplay members.</p></div><button class="secondary-btn" data-goto="courses">View all modules →</button></div>
+      <div class="grid-modules">
+        <article class="module"><div class="module-icon">📻</div><h3>Radio Communications</h3><p>Clear, concise and professional radio traffic.</p><div class="module-foot"><span class="pill">5 min read</span><button class="primary-btn" data-lesson="radio">Open module</button></div></article>
+        <article class="module"><div class="module-icon">🦺</div><h3>Scene Safety</h3><p>Roleplay scene awareness and safe team behaviour.</p><div class="module-foot"><span class="pill">5 min read</span><button class="primary-btn" data-lesson="safety">Open module</button></div></article>
+        <article class="module"><div class="module-icon">🚒</div><h3>Apparatus & Equipment</h3><p>Know the basic roleplay expectations around units.</p><div class="module-foot"><span class="pill">4 min read</span><button class="primary-btn" data-lesson="apparatus">Open module</button></div></article>
+      </div>
+      <footer>FDNY TRAINING ACADEMY • COMMUNITY ROLEPLAY RESOURCE</footer>
+    </section>
+    <section class="page" id="courses">
+      <div class="section-head"><div><h2>Training modules</h2><p>Work through each topic at your own pace.</p></div></div>
+      <div class="module-list">
+        <div class="lesson"><div class="module-icon">📻</div><div class="lesson-info"><b>01 · Radio Communications</b><p>Radio etiquette, clarity and example call structure.</p></div><button class="primary-btn" data-lesson="radio">Study</button></div>
+        <div class="lesson"><div class="module-icon">🦺</div><div class="lesson-info"><b>02 · Scene Safety</b><p>Situational awareness, teamwork and roleplay boundaries.</p></div><button class="primary-btn" data-lesson="safety">Study</button></div>
+        <div class="lesson"><div class="module-icon">🚒</div><div class="lesson-info"><b>03 · Apparatus & Equipment</b><p>Unit identification and respectful equipment handling in-game.</p></div><button class="primary-btn" data-lesson="apparatus">Study</button></div>
+        <div class="lesson"><div class="module-icon">⭐</div><div class="lesson-info"><b>04 · Rank & Chain of Command</b><p>Understand leadership, responsibilities and escalation.</p></div><button class="primary-btn" data-lesson="command">Study</button></div>
+        <div class="lesson"><div class="module-icon">🤝</div><div class="lesson-info"><b>05 · Professional Conduct</b><p>Respect, fair play and representing the department well.</p></div><button class="primary-btn" data-lesson="conduct">Study</button></div>
+      </div>
+    </section>
+    <section class="page" id="lessonPage">
+      <div class="section-head"><div><p>TRAINING MODULE</p><h2 id="lessonTitle">Module title</h2></div><button class="secondary-btn" data-goto="courses">← All modules</button></div>
+      <article class="panel lesson-detail" id="lessonBody"></article>
+      <p><button class="primary-btn" id="completeBtn">Mark module as completed ✓</button></p>
+    </section>
+    <section class="page" id="radio">
+      <div class="section-head"><div><h2>Radio procedure</h2><p>Communication standards for your community roleplay sessions.</p></div></div>
+      <article class="panel lesson-detail"><h2>📻 Clear radio traffic</h2><p>Good radio communication is calm, brief and understandable. Follow your server's own radio codes and channel rules; codes differ between communities and real departments.</p><h3>Suggested roleplay call structure</h3><ol><li>Identify the unit or callsign.</li><li>State who you are calling.</li><li>Give a short, relevant status update.</li><li>Wait for acknowledgement when required by your server.</li></ol><div class="callout"><b>Example (fictional):</b><br>“Engine 12 to Dispatch, we are responding to the training scenario.”</div><h3>Radio etiquette</h3><ul><li>Do not talk over another active transmission.</li><li>Keep messages relevant to the incident.</li><li>Use plain language if a code is unclear.</li><li>Never use the radio to harass or argue with other players.</li></ul><button class="primary-btn" data-complete="radio">Mark as completed ✓</button></article>
+    </section>
+    <section class="page" id="safety">
+      <div class="section-head"><div><h2>Scene safety</h2><p>Roleplay awareness and safe teamwork.</p></div></div>
+      <article class="panel lesson-detail"><h2>🦺 Be aware of the scene</h2><p>In a roleplay environment, scene safety means following the scenario leader's instructions, keeping the area organised and avoiding actions that disrupt other players.</p><h3>Before joining a scenario</h3><ul><li>Listen to the briefing and understand your assigned role.</li><li>Use only the vehicles and equipment permitted by the server.</li><li>Keep clear of other players' active scenes unless assigned.</li><li>Ask a supervisor if instructions are unclear.</li></ul><div class="callout"><b>Important:</b> This is game/community guidance only. Real emergencies require following official training and instructions from qualified emergency services.</div><button class="primary-btn" data-complete="safety">Mark as completed ✓</button></article>
+    </section>
+    <section class="page" id="apparatus">
+      <div class="section-head"><div><h2>Apparatus & equipment</h2><p>Basic unit awareness for roleplay.</p></div></div>
+      <article class="panel lesson-detail"><h2>🚒 Know your assigned unit</h2><p>Use the apparatus assigned by your training officer or scenario organiser. Each server may have its own vehicle names, loadouts and operating rules.</p><h3>Good roleplay habits</h3><ul><li>Check that you have selected the correct vehicle for your assigned role.</li><li>Do not take another member's unit without permission.</li><li>Keep vehicles parked sensibly when not in use.</li><li>Follow server-specific rules for lights, sirens and vehicle movement.</li><li>Report missing or broken game assets to staff.</li></ul><button class="primary-btn" data-complete="apparatus">Mark as completed ✓</button></article>
+    </section>
+    <section class="page" id="quiz">
+      <div class="section-head"><div><h2>Knowledge check</h2><p>Test your understanding of the training guide.</p></div><span class="pill" id="quizCount">Question 1 of 5</span></div>
+      <div class="quiz-card panel"><div class="progress"><div id="quizBar" style="width:20%"></div></div><p class="quiz-question" id="questionText" style="margin-top:20px"></p><div id="options"></div><div class="feedback" id="feedback"></div><button class="primary-btn" id="nextQuestion" disabled>Next question →</button></div>
+    </section>
+    <section class="page" id="progress">
+      <div class="section-head"><div><h2>My progress</h2><p>Your completed modules are saved in this browser on this device.</p></div><button class="secondary-btn" id="resetProgress">Reset progress</button></div>
+      <div class="panel"><div class="progress-row"><b>Course completion</b><strong id="progressPercent">0%</strong></div><div class="progress"><div id="progressBar"></div></div><div id="progressList" class="module-list" style="margin-top:18px"></div></div>
+    </section>
+    <footer>Unofficial community training guide • Follow your server's official rules and qualified real-world instruction.</footer>
+  </div>
+</main>
+</div>
+</div>
+<script>
+const modules = {
+ radio:{title:'01 · Radio Communications',icon:'📻',summary:'Communicate clearly and professionally.',body:'<h3>Radio etiquette</h3><p>Keep transmissions calm, brief and relevant. Use your community’s approved callsigns and radio conventions. Do not invent or assume real-world radio codes.</p><h3>Suggested message structure</h3><ol><li>Identify your unit.</li><li>Identify who you are calling.</li><li>Give the essential status or request.</li><li>Wait for a reply if the procedure requires it.</li></ol><div class="callout"><b>Fictional example:</b> “Engine 12 to Dispatch, responding to the training scenario.”</div><h3>Remember</h3><p>Do not interrupt active traffic, argue over the radio or share private information.</p>'},
+ safety:{title:'02 · Scene Safety',icon:'🦺',summary:'Situational awareness and safe teamwork.',body:'<h3>Stay organised</h3><p>Follow the scenario briefing, stay within your assigned role and listen to the incident leader.</p><h3>Good habits</h3><ul><li>Ask questions if an instruction is unclear.</li><li>Keep access routes clear in the game.</li><li>Avoid crowding other players or disrupting scenes.</li><li>Report unsafe or disruptive behaviour to staff.</li></ul><div class="callout"><b>Real-world reminder:</b> This module is for game roleplay only, not operational emergency-response instruction.</div>'},
+ apparatus:{title:'03 · Apparatus & Equipment',icon:'🚒',summary:'Use assigned units responsibly.',body:'<h3>Vehicle expectations</h3><p>Use the unit assigned to you by your instructor or scenario organiser. Follow the server’s vehicle and equipment rules.</p><ul><li>Do not take another member’s unit without permission.</li><li>Park sensibly when not in use.</li><li>Use lights and sirens only as permitted by the scenario.</li><li>Report broken or missing assets to staff.</li></ul>'},
+ command:{title:'04 · Rank & Chain of Command',icon:'⭐',summary:'Understand leadership and responsibilities.',body:'<h3>Respect the structure</h3><p>Follow your server’s published rank structure. Supervisors coordinate training and help resolve questions.</p><ul><li>Take instructions from the assigned scenario leader.</li><li>Do not claim a rank or authority you have not been given.</li><li>Raise concerns respectfully through the correct staff channel.</li><li>Leaders should explain decisions clearly and treat members fairly.</li></ul>'},
+ conduct:{title:'05 · Professional Conduct',icon:'🤝',summary:'Represent your department and community well.',body:'<h3>Professional standards</h3><ul><li>Treat members and visitors respectfully.</li><li>Follow Discord and game platform rules.</li><li>No harassment, discrimination, exploiting or disruptive behaviour.</li><li>Keep staff decisions fair and consistent.</li><li>Protect private information and use reporting channels appropriately.</li></ul><div class="callout">A good member helps make training welcoming, organised and enjoyable for everyone.</div>'}
+};
+const labels={radio:'Radio Communications',safety:'Scene Safety',apparatus:'Apparatus & Equipment',command:'Rank & Chain of Command',conduct:'Professional Conduct'};
+let completed=new Set(JSON.parse(localStorage.getItem('fdnyCompleted')||'[]'));
+function save(){localStorage.setItem('fdnyCompleted',JSON.stringify([...completed]));updateProgress()}
+function updateProgress(){const pct=Math.round(completed.size/5*100);document.getElementById('completionStat').textContent=pct+'%';document.getElementById('progressPercent').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressList').innerHTML=Object.entries(labels).map(([id,name])=>`<div class="lesson"><div class="module-icon">${modules[id].icon}</div><div class="lesson-info"><b>${name}</b><p>${completed.has(id)?'Completed':'Not completed yet'}</p></div><span class="pill">${completed.has(id)?'✓ Done':'In progress'}</span></div>`).join('')}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const page=document.getElementById(id);if(page)page.classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.getElementById('crumb').textContent=({dashboard:'Dashboard',courses:'Training modules',radio:'Radio procedure',safety:'Scene safety',apparatus:'Apparatus & equipment',quiz:'Knowledge check',progress:'My progress',lessonPage:'Module details'})[id]||id;document.getElementById('sidebar').classList.remove('open');}
+function openLesson(id){const m=modules[id];if(!m)return;document.getElementById('lessonTitle').textContent=m.title;document.getElementById('lessonBody').innerHTML=`<div class="module-icon">${m.icon}</div><p class="muted">${m.summary}</p>${m.body}`;document.getElementById('completeBtn').dataset.id=id;document.getElementById('completeBtn').textContent=completed.has(id)?'Completed ✓':'Mark module as completed ✓';showPage('lessonPage')}
+document.getElementById('navigation').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)showPage(b.dataset.page)});
+document.addEventListener('click',e=>{const l=e.target.closest('[data-lesson]');if(l)openLesson(l.dataset.lesson);const g=e.target.closest('[data-goto]');if(g)showPage(g.dataset.goto);const c=e.target.closest('[data-complete]');if(c){completed.add(c.dataset.complete);save();c.textContent='Completed ✓';}});
+document.getElementById('completeBtn').addEventListener('click',e=>{completed.add(e.target.dataset.id);save();e.target.textContent='Completed ✓'});
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+document.getElementById('resetProgress').addEventListener('click',()=>{if(confirm('Reset all saved training progress on this device?')){completed.clear();save()}});
+const questions=[
+ {q:'What makes a good radio transmission?',o:['Long and detailed stories','Calm, brief and relevant information','Talking over other units'],a:1,e:'Keep radio traffic calm, brief and relevant.'},
+ {q:'What should you do if a scenario instruction is unclear?',o:['Guess what to do','Ignore the instruction','Ask the scenario leader for clarification'],a:2,e:'Ask the assigned leader instead of guessing.'},
+ {q:'Can you take another member’s assigned apparatus without permission?',o:['No','Yes, whenever you want','Only to show it off'],a:0,e:'Respect unit assignments and ask permission.'},
+ {q:'How should you raise a concern about staff conduct?',o:['Start an argument in public chat','Use the appropriate reporting channel respectfully','Harass the staff member'],a:1,e:'Use the correct reporting channel and stay respectful.'},
+ {q:'Is this roleplay guide a substitute for real emergency-services training?',o:['Yes','No','Only sometimes'],a:1,e:'This is an unofficial game/community guide, not real operational training.'}
+];let qi=0,answer=null,score=0;
+function renderQuestion(){const q=questions[qi];answer=null;document.getElementById('quizCount').textContent=`Question ${qi+1} of ${questions.length}`;document.getElementById('quizBar').style.width=((qi+1)/questions.length*100)+'%';document.getElementById('questionText').textContent=q.q;document.getElementById('feedback').textContent='';document.getElementById('nextQuestion').disabled=true;document.getElementById('nextQuestion').textContent=qi===questions.length-1?'Finish quiz':'Next question →';document.getElementById('options').innerHTML=q.o.map((o,i)=>`<button class="option" data-answer="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+document.getElementById('options').addEventListener('click',e=>{const b=e.target.closest('[data-answer]');if(!b||answer!==null)return;answer=Number(b.dataset.answer);const q=questions[qi];document.querySelectorAll('.option').forEach((o,i)=>{if(i===q.a)o.style.borderColor='var(--success)';if(i===answer)o.classList.add('selected')});const correct=answer===q.a;if(correct)score++;document.getElementById('feedback').textContent=(correct?'Correct! ':'Not quite. ')+q.e;document.getElementById('feedback').style.color=correct?'var(--success)':'var(--warning)';document.getElementById('nextQuestion').disabled=false});
+document.getElementById('nextQuestion').addEventListener('click',()=>{if(qi<questions.length-1){qi++;renderQuestion()}else{document.getElementById('questionText').textContent=`Quiz complete — you scored ${score} out of ${questions.length}.`;document.getElementById('options').innerHTML='<button class="secondary-btn" id="retryQuiz">Try again</button>';document.getElementById('feedback').textContent='Use the modules to review any topics you want to practise.';document.getElementById('nextQuestion').disabled=true;document.getElementById('nextQuestion').style.display='none';document.getElementById('retryQuiz').addEventListener('click',()=>{qi=0;score=0;document.getElementById('nextQuestion').style.display='inline-block';renderQuestion()})}});
+renderQuestion();updateProgress();
+</script>
+</body>
+</html>
